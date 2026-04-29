@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCart } from './CartContext';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Cart = () => {
     const { cartItems, removeFromCart } = useCart();
@@ -19,7 +20,9 @@ const Cart = () => {
                     ))}
                 </ul>
             )}
+            <Toaster />
         </div>
+        
     );
 };
 
