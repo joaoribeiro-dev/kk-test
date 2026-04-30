@@ -1,14 +1,17 @@
-// Header.js
 import { NavLink } from 'react-router-dom';
+import { useCart } from './CartContext.jsx';
+import './header.scss';
 
 function Header() {
   return (
     <nav>
-      <ul>
-        <li><NavLink to="/">Início</NavLink></li>
-        <li><NavLink to="/products">Produtos</NavLink></li>
-        <li><NavLink to="/cart">Carrinho</NavLink></li>
-      </ul>
+      <div id="header-container">
+        <div className="header-links">
+            <div className="header-link"><NavLink to="/">Home</NavLink></div>
+            <div className="header-link"><NavLink to="/products">Products</NavLink></div>
+        </div>
+        <div className="header-link header-cart"><NavLink to="/cart">Cart ({useCart().getCartItemCount()})</NavLink></div>
+      </div>
     </nav>
   );
 }

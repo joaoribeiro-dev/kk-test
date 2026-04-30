@@ -7,6 +7,7 @@ import { CartProvider } from './CartContext.jsx'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Cart from './Cart.jsx';
 import Home from './Home.jsx';
+import NotFound from './NotFound.jsx';
 
     
 createRoot(document.getElementById('root')).render(
@@ -18,6 +19,8 @@ createRoot(document.getElementById('root')).render(
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </CartProvider>

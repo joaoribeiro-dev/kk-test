@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
 const CartContext = createContext();
@@ -8,12 +8,19 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(() => {
+        const savedCart = localStorage.getItem('cartItems');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
 
 
     const addToCart = (product, quantity) => {
         if(quantity > 0) {
-            const isItemInCart = cartItems.find((cartItem) => cartItem.id === product.id); // check if the item is already in the cart
+            const isItemInCart = cartItems.find((cartItem) => cartItem.id === product.id);
             if (isItemInCart) {
                 setCartItems((prevItems) =>
                     prevItems.map((cartItem) =>
@@ -28,12 +35,11 @@ export const CartProvider = ({ children }) => {
                 toast.success('Successfully added to cart!');
             }
         } else {
-            // if the quantity is 0
             if(cartItems.find((cartItem) => cartItem.id === product.id)) {
                 toast.error('Quantity cannot be 0! Please remove the item from the cart if you want to remove it.');
             } else {
                 setCartItems((prevItems) => prevItems.filter((cartItem) => cartItem.id !== product.id));
-                toast.success('Successfully removed from cart!');
+                toast.error('Quantity cannot be 0! Add quantity to the item to add it to the cart.');
             }
         }
     };
@@ -49,12 +55,30 @@ export const CartProvider = ({ children }) => {
     };
 
     const getCartTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0); // calculate the total price of the items in the cart
+        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    };
+
+    const getCartItemCount = () => {
+        return cartItems.reduce((count, item) => count + item.quantity, 0);
     };
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, getCartTotal }}>
-            {children}
-        </CartContext.Provider>
+        <>
+            <Toaster 
+                position="top-right" 
+                reverseOrder={false}
+                gutter={8}
+                toastOptions={{
+                    duration: 3000,
+                    style: {
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }}
+            />
+            <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, getCartTotal, getCartItemCount }}>
+                {children}
+            </CartContext.Provider>
+        </>
     );
 };
