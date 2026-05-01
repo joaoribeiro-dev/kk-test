@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from './CartContext';
+import { useCart } from '../../context/CartContext';
 import { NavLink } from 'react-router-dom';
 import './cart.scss';
 

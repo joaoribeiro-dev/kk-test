@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import './app.scss'
-import './productCard.scss'
-
-import { useCart } from './CartContext.jsx';
-import Cart from './Cart.jsx';
-import Loading from './Loading.jsx';
+import '../../app.scss';
+import './productCard.scss';
+import { useCart } from '../../context/CartContext.jsx';
+import Cart from '../Cart/Cart.jsx';
+import Loading from '../Loading/Loading.jsx';
 
 
 function ProductCard() {

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { useCart } from './CartContext.jsx';
+import { useCart } from '../../context/CartContext.jsx';
 import './header.scss';
 
 function Header() {
